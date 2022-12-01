@@ -1,15 +1,35 @@
 fun main() {
+
+    fun getTotalCaloriesByOrder(input: List<String>): List<Int> {
+        val totalCalories = mutableListOf<Int>()
+        var currentTotalCalorie = 0
+
+        input.forEachIndexed { index, string ->
+            if (string != "") {
+                currentTotalCalorie += string.toInt()
+            } else {
+                totalCalories.add(currentTotalCalorie)
+                currentTotalCalorie = 0
+            }
+
+            if (index == input.lastIndex) {
+                totalCalories.add(currentTotalCalorie)
+                currentTotalCalorie = 0
+            }
+        }
+
+        totalCalories.sortDescending()
+
+        return totalCalories
+    }
+
     fun part1(input: List<String>): Int {
-        return input.size
+        return getTotalCaloriesByOrder(input).first()
     }
 
     fun part2(input: List<String>): Int {
-        return input.size
+        return getTotalCaloriesByOrder(input).subList(0, 3).sum()
     }
-
-    // test if implementation meets criteria from the description, like:
-    val testInput = readInput("Day01_test")
-    check(part1(testInput) == 1)
 
     val input = readInput("Day01")
     println(part1(input))
